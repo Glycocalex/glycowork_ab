@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/glycan_data.html</loc>
+    <lastmod>2024-11-12T08:52:54.635Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/CONTRIBUTING.html</loc>
+    <lastmod>2024-11-12T08:51:26.798Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/index.html</loc>
+    <lastmod>2024-11-12T08:52:48.427Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/core.html</loc>
+    <lastmod>2024-11-12T08:52:48.411Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/motif.html</loc>
+    <lastmod>2024-11-12T08:52:55.843Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/examples.html</loc>
+    <lastmod>2024-11-12T08:52:48.579Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/network.html</loc>
+    <lastmod>2024-11-12T08:52:55.747Z</lastmod>
+  </url>
+  <url>
+    <loc>https://BojarLab.github.io/glycowork/ml.html</loc>
+    <lastmod>2024-11-12T08:52:57.267Z</lastmod>
+  </url>
+</urlset>
