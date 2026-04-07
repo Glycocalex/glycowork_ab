@@ -3615,6 +3615,37 @@ def test_file_loading_branches(tmp_path):
     cov_df.to_excel(tmp_path / "cov.xlsx", index=False)
     for ext in ["csv", "tsv", "xlsx"]:
         get_coverage(str(tmp_path / f"cov.{ext}"))
+    for ext in ["csv", "tsv", "xlsx"]:
+        get_heatmap(str(tmp_path / f"test.{ext}"))
+        plt.close('all')
+        # get_pca — reuses test.* files; groups list drives column slicing
+    for ext in ["csv", "tsv", "xlsx"]:
+        get_pca(str(tmp_path / f"test.{ext}"), groups = [1, 1, 2, 2])
+        plt.close('all')
+        # get_time_series — needs sample columns in 'ID_hN_rN' format
+    ts_df = pd.DataFrame({
+        'glycan': ['Gal(b1-4)GlcNAc', 'Man(a1-6)Man'],
+        'T1_h5_r1': [10.0, 20.0], 'T1_h5_r2': [15.0, 25.0],
+        'T2_h10_r1': [12.0, 22.0], 'T2_h10_r2': [18.0, 28.0]
+    })
+    ts_df.to_csv(tmp_path / "ts.csv", index = False)
+    ts_df.to_csv(tmp_path / "ts.tsv", index = False, sep = "\t")
+    ts_df.to_excel(tmp_path / "ts.xlsx", index = False)
+    for ext in ["csv", "tsv", "xlsx"]:
+        result = get_time_series(str(tmp_path / f"ts.{ext}"), impute = False)
+        assert isinstance(result, pd.DataFrame)
+    # get_jtk — 2 timepoints × 2 replicates, period=24 at interval=12 gives period/interval=2=timepoints
+    jtk_df = pd.DataFrame({
+        'glycan': ['Gal(b1-4)GlcNAc', 'Man(a1-6)Man'],
+        'r1_t1': [10.0, 20.0], 'r2_t1': [15.0, 25.0],
+        'r1_t2': [12.0, 22.0], 'r2_t2': [18.0, 28.0]
+    })
+    jtk_df.to_csv(tmp_path / "jtk.csv", index = False)
+    jtk_df.to_csv(tmp_path / "jtk.tsv", index = False, sep = "\t")
+    jtk_df.to_excel(tmp_path / "jtk.xlsx", index = False)
+    for ext in ["csv", "tsv", "xlsx"]:
+        result = get_jtk(str(tmp_path / f"jtk.{ext}"), timepoints = 2, interval = 12, periods = [24])
+        assert isinstance(result, pd.DataFrame)
 
 
 def test_get_pvals_motifs():
@@ -3985,6 +4016,13 @@ def test_get_biodiversity():
     # The groups are designed to be different, so p-values should be < 0.05
     assert any(p < 0.05 for p in results['p-val']), "Should detect differences between groups"
     results = get_biodiversity(df, group1, group2, metrics=['alpha', 'beta'], paired=True)
+    df3 = df[['glycan'] + group1 + group2].copy()
+    for i in range(3):
+        df3[f'sample3_{i + 1}'] = group2_data[i] * 1.2
+    results = get_biodiversity(df3, [1, 1, 1, 2, 2, 2, 3, 3, 3], [], metrics = ['alpha'])
+    assert isinstance(results, pd.DataFrame)
+    results = get_biodiversity(df, group1, group2, metrics = ['beta'], motifs = True)
+    assert isinstance(results, pd.DataFrame)
 
 
 @pytest.fixture

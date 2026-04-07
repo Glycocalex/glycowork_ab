@@ -21,7 +21,7 @@
 
 #### draw
 ##### Changed 🔄
-- Improved branch spacing in `GlycoDraw` for highly branched glycans
+- Improved branch spacing in `GlycoDraw` for highly branched glycans (6a673d0)
 
 ### network
 #### biosynthesis
