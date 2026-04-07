@@ -18,6 +18,8 @@
 #### analysis
 ##### Fixed 🐛
 - Fixed column names slipping into column values when `motifs = True` combined with `transform = ALR` in `get_pca` (e802da1)
+##### Changed 🔄
+- Added distance matrix to beta diversity output
 
 #### draw
 ##### Changed 🔄
