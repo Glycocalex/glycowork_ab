@@ -4006,7 +4006,7 @@ def test_get_biodiversity():
     # Run biodiversity analysis
     results = get_biodiversity(df, group1, group2, metrics=['alpha', 'beta'])
     # Basic assertions
-    assert isinstance(results, pd.DataFrame), "Results should be a DataFrame"
+    assert isinstance(results, tuple(pd.DataFrame, pd.DataFrame)), "Results should be a tuple of two DataFrames"
     assert 'Metric' in results.columns, "Results should have a Metric column"
     assert 'p-val' in results.columns, "Results should have a p-val column"
     # Additional assertions to verify realistic results

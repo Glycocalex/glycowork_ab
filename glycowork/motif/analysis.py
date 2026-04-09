@@ -8,7 +8,6 @@ import networkx as nx
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
 from numpy import ndarray
-from pandas import DataFrame
 
 plt.rcParams.update({
     'font.size': 11, 'axes.labelsize': 12, 'axes.titlesize': 13,
@@ -19,7 +18,7 @@ plt.rcParams.update({
     'axes.prop_cycle': plt.cycler('color', ['#2D6A9F', '#C84B55', '#3A9268', '#E8863A', '#7B5EA7', '#C4843A', '#4AADA8'])
 })
 from collections import Counter
-from typing import Any, List
+from typing import Any
 from scipy.stats import ttest_ind, ttest_rel, norm, levene, f_oneway, spearmanr
 from statsmodels.formula.api import ols
 from statsmodels.stats.multitest import multipletests
@@ -1018,14 +1017,14 @@ def get_biodiversity(
     gamma: float = 0.1, # Uncertainty parameter for CLR transform
     custom_scale: float | dict = 0, # Ratio of total signal in group2/group1 for an informed scale model (or group_idx: mean(group)/min(mean(groups)) signal dict for multivariate)
     random_state: int | np.random.Generator | None = None # optional random state for reproducibility
-    ) -> list[DataFrame | ndarray[Any, Any] | list[Any]]: # DataFrame with diversity indices and test statistics
+    ) -> tuple[pd.DataFrame, pd.DataFrame ]: # First dataFrame with diversity indices and test statistics, second with beta-diversity distance matrix
   "Calculates alpha (Shannon/Simpson) and beta (ANOSIM/PERMANOVA) diversity measures from glycomics data"
   experiment = "diff" if group2 else "anova"
   df, df_org, group1, group2 = preprocess_data(df, group1, group2, experiment = experiment, motifs = motifs, impute = False,
                                                transform = transform, feature_set = feature_set, paired = paired, gamma = gamma,
                                                custom_scale = custom_scale, custom_motifs = custom_motifs, random_state = random_state)
   shopping_cart = []
-  distance_matrix = []
+  distance_matrix = pd.DataFrame()
   group_sizes = group1 if not group2 else len(group1)*[1]+len(group2)*[2]
   group_counts = Counter(group_sizes)
   # Sample-size aware alpha via Bayesian-Adaptive Alpha Adjustment
@@ -1083,7 +1082,7 @@ def get_biodiversity(
   corrpvals, significance = correct_multiple_testing(df_out['p-val'], alpha)
   df_out["corr p-val"] = corrpvals
   df_out["significant"] = significance
-  return [df_out.sort_values(by = 'p-val').sort_values(by = 'corr p-val').reset_index(drop = True), distance_matrix]
+  return df_out.sort_values(by = 'p-val').sort_values(by = 'corr p-val').reset_index(drop = True), distance_matrix
 
 
 def get_SparCC(
