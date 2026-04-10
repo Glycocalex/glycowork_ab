@@ -4012,13 +4012,13 @@ def test_get_biodiversity():
     assert isinstance(stats, pd.DataFrame)
     assert isinstance(dist_matrix, np.ndarray)
     assert 'Metric' in stats.columns, "Stats results should have a Metric column"
-    assert 'p-val' in results.columns, "Results should have a p-val column"
+    assert 'p-val' in stats.columns, "Results should have a p-val column"
     # Additional assertions to verify realistic results
-    assert len(results) >= 2, "Should have at least alpha and beta diversity results"
-    assert all(0 <= p <= 1 for p in results['p-val']), "p-values should be between 0 and 1"
+    assert len(stats) >= 2, "Should have at least alpha and beta diversity results"
+    assert all(0 <= p <= 1 for p in stats['p-val']), "p-values should be between 0 and 1"
     # Optional: Check if the differences are detectable
     # The groups are designed to be different, so p-values should be < 0.05
-    assert any(p < 0.05 for p in results['p-val']), "Should detect differences between groups"
+    assert any(p < 0.05 for p in stats['p-val']), "Should detect differences between groups"
     results = get_biodiversity(df, group1, group2, metrics=['alpha', 'beta'], paired=True)
     df3 = df[['glycan'] + group1 + group2].copy()
     for i in range(3):
