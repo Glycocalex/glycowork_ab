@@ -4010,7 +4010,7 @@ def test_get_biodiversity():
     assert len(results) == 2, "Results should be consist of two DataFrames"
     stats, dist_matrix = results
     assert isinstance(stats, pd.DataFrame)
-    assert isinstance(dist_matrix, pd.DataFrame)
+    assert isinstance(dist_matrix, np.ndarray)
     assert 'Metric' in stats.columns, "Stats results should have a Metric column"
     assert 'p-val' in results.columns, "Results should have a p-val column"
     # Additional assertions to verify realistic results
