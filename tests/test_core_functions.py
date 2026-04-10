@@ -4006,23 +4006,27 @@ def test_get_biodiversity():
     # Run biodiversity analysis
     results = get_biodiversity(df, group1, group2, metrics=['alpha', 'beta'])
     # Basic assertions
-    assert isinstance(results, pd.DataFrame), "Results should be a DataFrame"
-    assert 'Metric' in results.columns, "Results should have a Metric column"
-    assert 'p-val' in results.columns, "Results should have a p-val column"
+    assert isinstance(results, tuple), "Results should be a tuple"
+    assert len(results) == 2, "Results should be consist of two DataFrames"
+    stats, dist_matrix = results
+    assert isinstance(stats, pd.DataFrame)
+    assert isinstance(dist_matrix, np.ndarray)
+    assert 'Metric' in stats.columns, "Stats results should have a Metric column"
+    assert 'p-val' in stats.columns, "Results should have a p-val column"
     # Additional assertions to verify realistic results
-    assert len(results) >= 2, "Should have at least alpha and beta diversity results"
-    assert all(0 <= p <= 1 for p in results['p-val']), "p-values should be between 0 and 1"
+    assert len(stats) >= 2, "Should have at least alpha and beta diversity results"
+    assert all(0 <= p <= 1 for p in stats['p-val']), "p-values should be between 0 and 1"
     # Optional: Check if the differences are detectable
     # The groups are designed to be different, so p-values should be < 0.05
-    assert any(p < 0.05 for p in results['p-val']), "Should detect differences between groups"
+    assert any(p < 0.05 for p in stats['p-val']), "Should detect differences between groups"
     results = get_biodiversity(df, group1, group2, metrics=['alpha', 'beta'], paired=True)
     df3 = df[['glycan'] + group1 + group2].copy()
     for i in range(3):
         df3[f'sample3_{i + 1}'] = group2_data[i] * 1.2
     results = get_biodiversity(df3, [1, 1, 1, 2, 2, 2, 3, 3, 3], [], metrics = ['alpha'])
-    assert isinstance(results, pd.DataFrame)
+    assert isinstance(results, tuple)
     results = get_biodiversity(df, group1, group2, metrics = ['beta'], motifs = True)
-    assert isinstance(results, pd.DataFrame)
+    assert isinstance(results, tuple)
 
 
 @pytest.fixture
