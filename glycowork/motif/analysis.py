@@ -1017,7 +1017,7 @@ def get_biodiversity(
     gamma: float = 0.1, # Uncertainty parameter for CLR transform
     custom_scale: float | dict = 0, # Ratio of total signal in group2/group1 for an informed scale model (or group_idx: mean(group)/min(mean(groups)) signal dict for multivariate)
     random_state: int | np.random.Generator | None = None # optional random state for reproducibility
-    ) -> tuple(pd.DataFrame, pd.DataFrame): # First dataFrame with diversity indices and test statistics, second with beta-diversity distance matrix
+    ) -> tuple(): # First dataFrame with diversity indices and test statistics, second with beta-diversity distance matrix
   "Calculates alpha (Shannon/Simpson) and beta (ANOSIM/PERMANOVA) diversity measures from glycomics data"
   experiment = "diff" if group2 else "anova"
   df, df_org, group1, group2 = preprocess_data(df, group1, group2, experiment = experiment, motifs = motifs, impute = False,
