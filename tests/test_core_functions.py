@@ -4008,7 +4008,10 @@ def test_get_biodiversity():
     # Basic assertions
     assert isinstance(results, tuple), "Results should be a tuple"
     assert len(results) == 2, "Results should be consist of two DataFrames"
-    assert 'Metric' in results.columns, "Results should have a Metric column"
+    stats, dist_matrix = results
+    assert isinstance(stats, pd.DataFrame)
+    assert isinstance(dist_matrix, pd.DataFrame)
+    assert 'Metric' in stats.columns, "Stats results should have a Metric column"
     assert 'p-val' in results.columns, "Results should have a p-val column"
     # Additional assertions to verify realistic results
     assert len(results) >= 2, "Should have at least alpha and beta diversity results"
