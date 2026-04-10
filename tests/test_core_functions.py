@@ -4024,9 +4024,9 @@ def test_get_biodiversity():
     for i in range(3):
         df3[f'sample3_{i + 1}'] = group2_data[i] * 1.2
     results = get_biodiversity(df3, [1, 1, 1, 2, 2, 2, 3, 3, 3], [], metrics = ['alpha'])
-    assert isinstance(results, pd.DataFrame)
+    assert isinstance(results, tuple)
     results = get_biodiversity(df, group1, group2, metrics = ['beta'], motifs = True)
-    assert isinstance(results, pd.DataFrame)
+    assert isinstance(results, tuple)
 
 
 @pytest.fixture
