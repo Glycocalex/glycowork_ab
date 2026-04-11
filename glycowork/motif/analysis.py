@@ -7,8 +7,6 @@ import seaborn as sns
 import networkx as nx
 import statsmodels.api as sm
 import matplotlib.pyplot as plt
-from numpy import ndarray
-
 plt.rcParams.update({
     'font.size': 11, 'axes.labelsize': 12, 'axes.titlesize': 13,
     'xtick.labelsize': 10, 'ytick.labelsize': 10, 'axes.linewidth': 0.8,
@@ -104,9 +102,9 @@ def preprocess_data(
     # Motif extraction and quantification
     df_org = quantify_motifs(df_org.iloc[:, 1:], df_org.iloc[:, 0].values.tolist(), feature_set,
                              custom_motifs = custom_motifs)
-    df = df_org + 0.0000001
     # Re-normalization
     df_org = df_org.apply(lambda col: col / col.sum() * 100, axis = 0)
+    df = df_org + 0.0000001
     if transform == "CLR":
         df = clr_transformation(df, group1 if experiment == "diff" else df.columns.tolist(), [] if paired else group2,
                                 gamma = gamma, custom_scale = 0 if paired else custom_scale,
@@ -1017,7 +1015,7 @@ def get_biodiversity(
     gamma: float = 0.1, # Uncertainty parameter for CLR transform
     custom_scale: float | dict = 0, # Ratio of total signal in group2/group1 for an informed scale model (or group_idx: mean(group)/min(mean(groups)) signal dict for multivariate)
     random_state: int | np.random.Generator | None = None # optional random state for reproducibility
-    ) -> tuple(): # First dataFrame with diversity indices and test statistics, second with beta-diversity distance matrix
+    ) -> tuple: # First DataFrame with diversity indices and test statistics, second with beta-diversity distance matrix
   "Calculates alpha (Shannon/Simpson) and beta (ANOSIM/PERMANOVA) diversity measures from glycomics data"
   experiment = "diff" if group2 else "anova"
   df, df_org, group1, group2 = preprocess_data(df, group1, group2, experiment = experiment, motifs = motifs, impute = False,
