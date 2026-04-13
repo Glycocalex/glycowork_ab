@@ -20,7 +20,7 @@
 - Added distance matrix to beta diversity output in `get_biodiversity` (dca7820)
 ##### Fixed 🐛
 - Fixed column names slipping into column values when `motifs = True` combined with `transform = ALR` in `get_pca` (e802da1)
-- Made motif abundance re-normalization more robust in `preprocess_data`
+- Made motif abundance re-normalization more robust in `preprocess_data` (ac6fa53)
 
 #### draw
 ##### Changed 🔄

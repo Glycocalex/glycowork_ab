@@ -1583,6 +1583,7 @@ def test_find_nth_reverse():
     assert find_nth_reverse(glycan, "Gal", 2, ignore_branches=True) == 26
     # Test missing
     assert find_nth_reverse("hello", "j", 1) == -1
+    assert find_nth_reverse("Gal(b1-4)[Fuc(a1-3)]GlcNAc", "GlcNAc", 1, ignore_branches = True) == 9
 
 
 def test_remove_unmatched_brackets():
@@ -1748,6 +1749,20 @@ def test_dataframe_serializer():
     df2 = serializer.deserialize("test.json")
     assert isinstance(df2["stringified_lists"].tolist()[0], list)
     assert isinstance(df2["stringified_dicts"].tolist()[0], dict)
+    s = DataFrameSerializer()
+    # string-like-list that fails literal_eval → falls through to primitive
+    assert s._serialize_cell("[not a list]")['type'] == 'primitive'
+    # string-like-dict with str→list values → str_list_dict
+    assert s._serialize_cell("{'a': [1, 2], 'b': [3, 4]}")['type'] == 'str_list_dict'
+    # string-like-dict with str→str values → dict; bad dict string → primitive
+    assert s._serialize_cell("{'a': 'x', 'b': 'y'}")['type'] == 'dict'
+    assert s._serialize_cell("{not: a dict}")['type'] == 'primitive'
+    # actual dict with str→list values → str_list_dict
+    assert s._serialize_cell({'a': [1, 2], 'b': [3, 4]})['type'] == 'str_list_dict'
+    # actual dict with str→str values → generic dict
+    assert s._serialize_cell({'a': 'x', 'b': 'y'})['type'] == 'dict'
+    # deserializing a 'dict'-type cell returns its value directly
+    assert s._deserialize_cell({'type': 'dict', 'value': {'a': 'b'}}) == {'a': 'b'}
 
 
 def test_glycan_binding():
@@ -2186,6 +2201,16 @@ def test_get_glm():
         assert hasattr(model, 'params')
         assert hasattr(model, 'pvalues')
         assert len(variables) > 0
+    # all retained features have max == 0 → early return
+    data_empty = pd.DataFrame({'H': [0, 0, 0, 0], 'N': [0, 0, 0, 0],
+                               'Abundance': [1., 2., 1., 2.], 'Condition': [0, 0, 1, 1]})
+    result, vars_ = get_glm(data_empty)
+    assert result == "No variables retained"
+    assert vars_ == []
+    # GLM fit raises → returns failure message
+    with patch('glycowork.glycan_data.stats.smf.glm', side_effect = ValueError("forced")):
+        result, vars_ = get_glm(data)
+        assert "GLM fitting failed" in result
 
 
 def test_process_glm_results():
@@ -4677,6 +4702,11 @@ def test_get_jtk_basic(sample_jtk_df):
         return False
     except:
         pass
+    # Odd max_stat: timepoints=3, replicates=1 → max_stat = 3*(3-1)/2 = 3 (odd)
+    odd_df = pd.DataFrame({'glycan': ['Gal(b1-4)GlcNAc', 'Man(a1-3)GlcNAc'],
+                           't1': [1.0, 2.0], 't2': [2.0, 1.0], 't3': [1.5, 1.5]})
+    result = get_jtk(odd_df, timepoints = 3, interval = 1, periods = [2])
+    assert isinstance(result, pd.DataFrame)
 
 
 def test_get_jtk_with_motifs(sample_jtk_df):

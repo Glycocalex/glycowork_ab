@@ -84,7 +84,7 @@ def preprocess_data(
                               min_samples = min_samples)
   df_org = df.copy(deep = True)
   if transform is None:
-    transform = "ALR" if enforce_class(df.iloc[0, 0], "N") and len(df) > 50 else "CLR"
+    transform = "ALR" if (isinstance(df.iloc[0, 0], str) and enforce_class(df.iloc[0, 0], "N")) and len(df) > 50 else "CLR"
   if transform == "ALR":
     df = get_additive_logratio_transformation(df, group1, group2, paired = paired, gamma = gamma, custom_scale = custom_scale, random_state = random_state)
   elif transform == "CLR":
