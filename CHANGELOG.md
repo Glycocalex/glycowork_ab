@@ -11,6 +11,7 @@
 - Changed `human_macrophages_N_2024-11-28-625934` and `human_macrophages_O_2024-11-28-625934` glycomics datasets to `human_macrophages_N_2024_11_28_625934` and `human_macrophages_O_2024_11_28_625934`
 
 ##### Fixed 🐛
+- Fixed one faulty sequence in `df_glycan` that caused graph generation to fail
 
 ##### Deprecated ⚠️
 
