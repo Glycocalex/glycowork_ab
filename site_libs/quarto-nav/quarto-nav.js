@@ -274,7 +274,7 @@ window.document.addEventListener("DOMContentLoaded", function () {
     for (let i = 0; i < links.length; i++) {
       if (links[i].href) {
         links[i].dataset.originalHref = links[i].href;
-        links[i].href = links[i].href.replace(/\/index\.html/, "/");
+        links[i].href = links[i].href.replace(/\/index\.html(?=[?#]|$)/, "/");
       }
     }
 
