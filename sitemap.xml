@@ -1,31 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/index.html</loc>
-    <lastmod>2026-07-14T09:37:33.206Z</lastmod>
+    <loc>https://bojarlab.github.io/glycowork/core.html</loc>
+    <lastmod>2026-09-30T09:33:17.641Z</lastmod>
   </url>
   <url>
-    <loc>/network.html</loc>
-    <lastmod>2026-07-14T09:37:32.785Z</lastmod>
+    <loc>https://bojarlab.github.io/glycowork/network.html</loc>
+    <lastmod>2026-09-30T09:33:31.446Z</lastmod>
+  </url>
+<url>
+    <loc>https://bojarlab.github.io/glycowork/glycan_data.html</loc>
+    <lastmod>2026-09-30T09:33:23.087Z</lastmod>
   </url>
   <url>
-    <loc>/ml.html</loc>
-    <lastmod>2026-07-14T09:37:35.529Z</lastmod>
+    <loc>https://bojarlab.github.io/glycowork/examples.html</loc>
+    <lastmod>2026-09-30T09:33:23.508Z</lastmod>
+  </url>
+<url>
+    <loc>https://bojarlab.github.io/glycowork/ml.html</loc>
+    <lastmod>2026-09-30T09:33:28.390Z</lastmod>
   </url>
   <url>
-    <loc>/core.html</loc>
-    <lastmod>2026-07-14T09:37:26.173Z</lastmod>
+    <loc>https://bojarlab.github.io/glycowork/index.html</loc>
+    <lastmod>2026-09-30T09:33:23.632Z</lastmod>
   </url>
-  <url>
-    <loc>/glycan_data.html</loc>
-    <lastmod>2026-07-14T09:37:33.196Z</lastmod>
-  </url>
-  <url>
-    <loc>/motif.html</loc>
-    <lastmod>2026-07-14T09:37:33.344Z</lastmod>
-  </url>
-  <url>
-    <loc>/examples.html</loc>
-    <lastmod>2026-07-14T09:37:33.135Z</lastmod>
+<url>
+    <loc>https://bojarlab.github.io/glycowork/motif.html</loc>
+    <lastmod>2026-09-30T09:33:33.235Z</lastmod>
   </url>
 </urlset>
